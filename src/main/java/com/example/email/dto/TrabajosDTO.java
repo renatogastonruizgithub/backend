@@ -1,15 +1,14 @@
 package com.example.email.dto;
 
 
-public class EducacionDTO {
 
+public class TrabajosDTO {
 	private Long id;
-	private String titulo;
-	private String info;
-	private  String instituto;
+	private String nombre;
+	private String descripcion;
+	private String cargo;	
 	private String inicio;	
 	private String fin;
-	
 	/**
 	 * @return the id
 	 */
@@ -23,40 +22,40 @@ public class EducacionDTO {
 		this.id = id;
 	}
 	/**
-	 * @return the titulo
+	 * @return the nombre
 	 */
-	public String getTitulo() {
-		return titulo;
+	public String getNombre() {
+		return nombre;
 	}
 	/**
-	 * @param titulo the titulo to set
+	 * @param nombre the nombre to set
 	 */
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	/**
-	 * @return the info
+	 * @return the descripcion
 	 */
-	public String getInfo() {
-		return info;
+	public String getDescripcion() {
+		return descripcion;
 	}
 	/**
-	 * @param info the info to set
+	 * @param descripcion the descripcion to set
 	 */
-	public void setInfo(String info) {
-		this.info = info;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 	/**
-	 * @return the instituto
+	 * @return the cargo
 	 */
-	public String getInstituto() {
-		return instituto;
+	public String getCargo() {
+		return cargo;
 	}
 	/**
-	 * @param instituto the instituto to set
+	 * @param cargo the cargo to set
 	 */
-	public void setInstituto(String instituto) {
-		this.instituto = instituto;
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
 	}
 	/**
 	 * @return the inicio
@@ -82,6 +81,7 @@ public class EducacionDTO {
 	public void setFin(String fin) {
 		this.fin = fin;
 	}
+	
 	
 	
 }
