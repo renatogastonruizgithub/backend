@@ -10,24 +10,14 @@ public class RegistroDTO {
 	private String nombre;
 	private String username;
 	private String email;
-
 	private String password;
 	
 	private Set<String> roles = new HashSet<>();
-	
-	
-	
-	
-	/**
-	 * @return the roles
-	 */
+
 	public Set<String> getRoles() {
 		return roles;
 	}
-
-	/**
-	 * @param roles the roles to set
-	 */
+	
 	public void setRoles(Set<String> roles) {
 		this.roles = roles;
 	}

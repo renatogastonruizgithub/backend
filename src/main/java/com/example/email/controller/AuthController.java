@@ -25,6 +25,8 @@ import com.example.email.model.Rol;
 import com.example.email.model.Usuario;
 import com.example.email.repository.RolRepository;
 import com.example.email.repository.UsuarioRepository;
+import com.example.email.seguridad.JWTAuthResonseDTO;
+import com.example.email.seguridad.JwtTokenProvider;
 
 
 @RestController
@@ -41,17 +43,18 @@ public class AuthController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO ){
+	public ResponseEntity<JWTAuthResonseDTO> authenticateUser(@RequestBody LoginDTO loginDTO ){
 		org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(), loginDTO.getPassword()));
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
 		//obtenemos el token del jwtTokenProvider
-		//String token = jwtTokenProvider.generarToken(authentication);
-		
-		return new ResponseEntity<>("inicio de sesion con exito",HttpStatus.OK);
+				String token = jwtTokenProvider.generarToken(authentication);
+				
+				return ResponseEntity.ok(new JWTAuthResonseDTO(token));
 	}
 	
 	@PostMapping("/registrar")
@@ -72,16 +75,18 @@ public class AuthController {
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
 		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));
-		  Set<Rol> roles = new HashSet<>();		
-		  if(registroDTO.getRoles().contains("admin")) {
-			  roles.add(rolRepositorio.findByNombre("ROLE_ADMIN").get());
+		
+		  Set<Rol> roles = new HashSet<>();	
+		  
+		  if(registroDTO.getRoles().contains("user")) {
+			  roles.add(rolRepositorio.findByNombre("ROLE_USER").get());
 		  }
-		  if(registroDTO.getRoles().contains("user"))
-		  {
-			  roles.add(rolRepositorio.findByNombre("ROLE_USER").get()); 
-		  }
-		  usuario.setRoles(roles);
-		  usuarioRepositorio.save(usuario);
+		    if(registroDTO.getRoles().contains("admin")) {
+		    	  roles.add(rolRepositorio.findByNombre("ROLE_ADMIN").get());		    	
+		    }	
+			  usuario.setRoles(roles);
+			  usuarioRepositorio.save(usuario);
+	
 			return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
 	
 	}
