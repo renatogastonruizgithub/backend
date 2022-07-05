@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.example.email.dto.HomeDTO;
 import com.example.email.dto.PersonaDTO;
 import com.example.email.dto.PersonaEducacionDTO;
+import com.example.email.excepciones.AppException;
 import com.example.email.mapper.EducacionMapper;
 import com.example.email.mapper.PersonaMapper;
 import com.example.email.model.Persona;
@@ -21,6 +22,7 @@ import com.example.email.model.Persona;
 import com.example.email.repository.PersonaRepository;
 
 import com.example.email.service.PersonaService;
+
 
 
 
@@ -37,10 +39,14 @@ public class PersonaServiceImpl implements PersonaService {
 	@Override
 	@Transactional
 	public PersonaDTO save(PersonaDTO personaDto) {
+	
+			if(personaRepo.count()>0) {
+				throw new RuntimeException("no se puede agregar, edite o elimine los datos");
+			}
 		Persona persona =personaMapper.dtoToEntity(personaDto);
-		Persona personaSave=  personaRepo.save(persona);
-		PersonaDTO dto=personaMapper.entityToDto(personaSave);
-		return dto;
+		Persona personaSave=  personaRepo.save(persona);		
+			PersonaDTO dto=personaMapper.entityToDto(personaSave);			
+			return dto;
 	}
 		
 	@Override

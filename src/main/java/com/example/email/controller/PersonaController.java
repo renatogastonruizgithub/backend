@@ -59,7 +59,8 @@ public ResponseEntity<PersonaDTO> guardar(@RequestBody PersonaDTO personaDto )
 @DeleteMapping("/borrarPersona/{id}")
 public ResponseEntity<Boolean> eliminar(@PathVariable(name = "id") Long id) {
 	personaService.eliminarPersona(id);	
-	return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+ return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	
 }
 @PreAuthorize("hasRole('ADMIN')")
 @PutMapping("/actualizarPersona/{id}")

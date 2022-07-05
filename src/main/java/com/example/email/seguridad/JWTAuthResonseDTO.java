@@ -1,19 +1,62 @@
 package com.example.email.seguridad;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+
 public class JWTAuthResonseDTO {
 	private String tokenDeAcceso;
 	private String tipoDeToken = "Bearer";
-
-	public JWTAuthResonseDTO(String tokenDeAcceso) {
-		super();
-		this.tokenDeAcceso = tokenDeAcceso;
+	private String username;
+	private Collection<? extends GrantedAuthority> authorities;
+	
+	
+	public JWTAuthResonseDTO(String tokenDeAcceso,String username,
+			Collection<? extends GrantedAuthority> authorities) {
+		
+		this.tokenDeAcceso = tokenDeAcceso;		
+		this.username = username;
+		this.authorities = authorities;
 	}
 
-	public JWTAuthResonseDTO(String tokenDeAcceso, String tipoDeToken) {
-		super();
-		this.tokenDeAcceso = tokenDeAcceso;
-		this.tipoDeToken = tipoDeToken;
+
+
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
 	}
+
+
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+
+	/**
+	 * @return the authorities
+	 */
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	/**
+	 * @param authorities the authorities to set
+	 */
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
+
+	public JWTAuthResonseDTO() {
+		
+	}
+	
 
 	public String getTokenDeAcceso() {
 		return tokenDeAcceso;

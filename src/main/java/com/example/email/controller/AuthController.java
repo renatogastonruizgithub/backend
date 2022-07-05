@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,10 +53,15 @@ public class AuthController {
 		org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(), loginDTO.getPassword()));
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		//obtenemos el token del jwtTokenProvider
+		
 				String token = jwtTokenProvider.generarToken(authentication);
 				
-				return ResponseEntity.ok(new JWTAuthResonseDTO(token));
+				UserDetails userDetails =(UserDetails)authentication.getPrincipal();
+				
+				JWTAuthResonseDTO j = new JWTAuthResonseDTO(token,userDetails.getUsername(),userDetails.getAuthorities());
+				
+				//return ResponseEntity.ok(new JWTAuthResonseDTO(j));
+				 return new ResponseEntity<>(j,HttpStatus.OK);
 	}
 	
 	@PostMapping("/registrar")
