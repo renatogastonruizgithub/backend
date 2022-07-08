@@ -1,26 +1,22 @@
 package com.example.email.controller;
 
-import java.util.Collections;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.email.dto.LoginDTO;
 import com.example.email.dto.RegistroDTO;
 import com.example.email.model.Rol;
@@ -49,7 +45,10 @@ public class AuthController {
 	private JwtTokenProvider jwtTokenProvider;
 	
 	@PostMapping("/login")
-	public ResponseEntity<JWTAuthResonseDTO> authenticateUser(@RequestBody LoginDTO loginDTO ){
+	public ResponseEntity<JWTAuthResonseDTO> authenticateUser(@Validated @RequestBody LoginDTO loginDTO ,BindingResult bindingResult ){
+		 if(bindingResult.hasErrors()) {
+			 throw new RuntimeException ("usuario o contraseña incorrectas");
+		 }
 		org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(), loginDTO.getPassword()));
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -60,14 +59,23 @@ public class AuthController {
 				
 				JWTAuthResonseDTO j = new JWTAuthResonseDTO(token,userDetails.getUsername(),userDetails.getAuthorities());
 				
-				//return ResponseEntity.ok(new JWTAuthResonseDTO(j));
+				
 				 return new ResponseEntity<>(j,HttpStatus.OK);
 	}
 	
 	@PostMapping("/registrar")
 	public ResponseEntity<?> registrarUsuario(@RequestBody RegistroDTO registroDTO ,BindingResult bindingResult){
-		 if(bindingResult.hasErrors())
-	            return new ResponseEntity<>("email mal escrito o campos mal escritos",HttpStatus.BAD_REQUEST);
+	
+		 if(registroDTO.getEmail().isEmpty()) {
+				return new ResponseEntity<>("Nombre  requrido",HttpStatus.BAD_REQUEST);
+			}
+		
+		 if(registroDTO.getNombre().isEmpty()) {
+				return new ResponseEntity<>("Nombre  requrido",HttpStatus.BAD_REQUEST);
+			}
+		 if(registroDTO.getPassword().isEmpty()) {
+				return new ResponseEntity<>("Contraseña requrida",HttpStatus.BAD_REQUEST);
+			}
 		 
 		if(usuarioRepositorio.existsByUsername(registroDTO.getUsername())) {
 			return new ResponseEntity<>("Ese nombre de usuario ya existe",HttpStatus.BAD_REQUEST);

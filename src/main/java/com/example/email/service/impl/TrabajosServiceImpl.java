@@ -29,7 +29,10 @@ public class TrabajosServiceImpl  implements TrabajosService{
 	private TrabajosRepository trabajoRepo;
 	
 	@Override
-	public Trabajos save(Trabajos trabajos) {		
+	public Trabajos save(Trabajos trabajos) {
+		if(personaRepo.count()==0) {
+			throw new RuntimeException("Primero agregue sus datos personales");
+		}	
 		Trabajos trabajost=trabajoRepo.save(trabajos);
 		Persona persona=personaRepo.findAll().get(0);		
 	 persona.getTrabajos().add(trabajost);

@@ -33,6 +33,9 @@ public class ProyectosServiceImpl implements ProyectosService{
 
 	@Override
 	public ProyectosDTO save(ProyectosDTO proyectosDto) {
+		if(personaRepo.count()==0) {
+			throw new RuntimeException("Primero agregue sus datos personales");
+		}	
 		Proyectos p =proyectoMapper.dtoToEntity(proyectosDto);
 		Proyectos PSave=  proyectosrepo.save(p);				
 		Persona persona=personaRepo.findAll().get(0);		

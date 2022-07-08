@@ -31,7 +31,10 @@ public class EducacionServiceImpl implements EducacionService{
 
 
 	@Override
-	public EducacionDTO crearEducacion( EducacionDTO educacionDto) {		
+	public EducacionDTO crearEducacion( EducacionDTO educacionDto) {
+		if(personaRepo.count()==0) {
+			throw new RuntimeException("Primero agregue sus datos personales");
+		}		
 		Educacion educacion =educacionMapper.dtoToEntity(educacionDto);
 		Educacion educacionSave=  educacionRepo.save(educacion);
 				

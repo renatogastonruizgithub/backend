@@ -29,7 +29,10 @@ public class HabiliadesServiceImpl  implements HabilidadesService{
 	private HabilidadesMapper habilMapper;
 	
 	@Override
-	public HabilidadesDTO crearHabilidades(HabilidadesDTO habilidadesDto) {	
+	public HabilidadesDTO crearHabilidades(HabilidadesDTO habilidadesDto) {
+		if(personaRepo.count()==0) {
+			throw new RuntimeException("Primero agregue sus datos personales");
+		}	
 		Habilidades hab =habilMapper.dtoToEntity(habilidadesDto);
 		Habilidades habSave=  habilidaRepo.save(hab);				
 		Persona persona=personaRepo.findAll().get(0);		
