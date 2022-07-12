@@ -7,17 +7,29 @@ import lombok.Data;
 @Data
 public class PersonaDTO {
 	private Long id;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el nombre")
 	private String nombre;
-	private String apellido;	
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el apellido")
+	private String apellido;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido nacimiento")
 	private String nacimiento;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la ocupacion")
 	private String ocupacion;
-	private String stack;	
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el stack")
+	private String stack;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la nacionalidad")
 	private String nacionalidad;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la provincia")
 	private String provincia;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la domicilio")
 	private String domicilio;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la descripion")
 	private String descripion;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la imagen")
 	private String imgBanner;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la imagen")
 	private String imgAbout;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el titulo pagina sobre mi")
 	private String tituloAbout;
 	private String nro;
 	

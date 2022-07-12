@@ -2,8 +2,11 @@ package com.example.email.dto;
 
 public class HabilidadesDTO {
 	private Long id;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el nombre")
 	private String nombre;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el numero")
 	private String numero;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el icono")
 	private String icono;
 	/**
 	 * @return the id

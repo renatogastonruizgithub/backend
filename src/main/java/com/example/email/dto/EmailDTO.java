@@ -1,10 +1,12 @@
 package com.example.email.dto;
 
 public class EmailDTO {
-	
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el mensaje")
 	private String body;
 	private  String subject;
-	private String name;	
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el nombre")
+	private String name;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el email de contacto")
 	private String mail;
 	/**
 	 * @return the body

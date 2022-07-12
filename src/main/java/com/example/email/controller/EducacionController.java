@@ -22,7 +22,7 @@ import com.example.email.dto.EducacionDTO;
 import com.example.email.service.EducacionService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/educacion")
 @CrossOrigin(origins = "*")
 public class EducacionController {
 

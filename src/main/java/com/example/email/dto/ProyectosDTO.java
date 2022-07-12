@@ -1,8 +1,11 @@
 package com.example.email.dto;
 
 public class ProyectosDTO {
+	@javax.validation.constraints.NotEmpty(message = "Es requrido descripcion")
 	private String descripcion;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido nombre")
 	private String nombre;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido imagen")
 	private String imagen;
 	private Long id;
 	/**

@@ -3,14 +3,15 @@ package com.example.email.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+
 
 public class RegistroDTO {
-	@javax.validation.constraints.NotEmpty(message = "Es requrido el nombre")
-	 
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el nombre")	 
 	private String nombre;
 	@javax.validation.constraints.NotEmpty(message = "Es requrido el nombre de usuario")
 	private String username;
-	
+	@Email
 	private String email;
 	@javax.validation.constraints.NotEmpty(message = "Es requrido la contraseña")
 	private String password;

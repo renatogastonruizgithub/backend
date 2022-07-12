@@ -4,10 +4,15 @@ package com.example.email.dto;
 
 public class TrabajosDTO {
 	private Long id;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el nombre")
 	private String nombre;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la descripcion")
 	private String descripcion;
-	private String cargo;	
-	private String inicio;	
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la cargo")
+	private String cargo;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la fecha de inicio")
+	private String inicio;
+	@javax.validation.constraints.NotEmpty(message = "Es requrido la fecha de fin")
 	private String fin;
 	/**
 	 * @return the id
