@@ -13,17 +13,15 @@ import javax.persistence.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.email.model.*;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 @Entity
 @Table(name="persona")
-@AllArgsConstructor //con parametros
-@NoArgsConstructor //constructor vacio
-@Data //crea setter y getter
+
+
 
 
 public class Persona {
