@@ -15,14 +15,22 @@ public class RegistroDTO {
 	private String email;
 	@javax.validation.constraints.NotEmpty(message = "Es requrido la contraseña")
 	private String password;
-	
-	private Set<String> roles = new HashSet<>();
+	@javax.validation.constraints.NotEmpty(message = "Es requrido el rol")
+	private String roles;
 
-	public Set<String> getRoles() {
+	
+
+	/**
+	 * @return the roles
+	 */
+	public String getRoles() {
 		return roles;
 	}
-	
-	public void setRoles(Set<String> roles) {
+
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(String roles) {
 		this.roles = roles;
 	}
 

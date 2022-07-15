@@ -37,10 +37,10 @@ public List<HomeDTO> verHome() {
 	return personaService.getHome();
 }
 
-@GetMapping("/sobreMi")	
-public List<Persona> sobre() {
-	return personaService.all();
-}
+	@GetMapping("/sobreMi")
+	public List<Persona> sobre() {
+		return personaService.all();
+	}
 
 
 @GetMapping("/persona/{id}") //mostrar por id

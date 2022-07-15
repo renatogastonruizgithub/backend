@@ -8,6 +8,7 @@ public class EmailDTO {
 	private String name;
 	@javax.validation.constraints.NotEmpty(message = "Es requrido el email de contacto")
 	private String mail;
+	
 	/**
 	 * @return the body
 	 */

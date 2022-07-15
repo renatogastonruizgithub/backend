@@ -61,19 +61,18 @@ public class PersonaServiceImpl implements PersonaService {
 		return personaRepo.findAll().stream().map(this::entityToDto).collect(Collectors.toList());
 		
 	}
-	
-
 
 	@Override
-	public List<Persona> all() {		
+	public List<Persona> all() {
 		return  personaRepo.findAll();
 	}
+
 
 	@Override
 	@Transactional
 	public void eliminarPersona(long id) {
 		personaRepo.deleteById(id);
-		
+
 	}
 
 

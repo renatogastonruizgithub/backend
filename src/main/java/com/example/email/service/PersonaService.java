@@ -18,8 +18,7 @@ public interface PersonaService {
 	public PersonaDTO actualizarPersona(PersonaDTO persona,long id);	
 	public void eliminarPersona(long id);	
 	 List<HomeDTO> getHome(); //muestra solo la home
-	 List<Persona> all();
-	 
-	
-	 
+
+
+	List<Persona> all();
 }

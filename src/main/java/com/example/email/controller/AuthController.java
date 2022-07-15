@@ -1,8 +1,7 @@
 package com.example.email.controller;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,13 +54,8 @@ public class AuthController {
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
-				String token = jwtTokenProvider.generarToken(authentication);
-				
-				UserDetails userDetails =(UserDetails)authentication.getPrincipal();
-				
-				JWTAuthResonseDTO j = new JWTAuthResonseDTO(token,userDetails.getUsername(),userDetails.getAuthorities());
-				
-				
+				String token = jwtTokenProvider.generarToken(authentication);				
+				JWTAuthResonseDTO j = new JWTAuthResonseDTO(token);
 				 return new ResponseEntity<>(j,HttpStatus.OK);
 	}
 	
@@ -93,17 +87,13 @@ public class AuthController {
 		usuario.setEmail(registroDTO.getEmail());
 		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));
 		
-		  Set<Rol> roles = new HashSet<>();	
-		  
-		  if(registroDTO.getRoles().contains("user")) {
-			  roles.add(rolRepositorio.findByNombre("ROLE_USER").get());
-		  }
+		  if(registroDTO.getRoles().contains("user")) {					  
+			  usuario.setRoles(Collections.singleton(rolRepositorio.findByNombre("ROLE_USER").get())); 
+		  }		  
 		    if(registroDTO.getRoles().contains("admin")) {
-		    	  roles.add(rolRepositorio.findByNombre("ROLE_ADMIN").get());		    	
+		    	 usuario.setRoles(Collections.singleton(rolRepositorio.findByNombre("ROLE_ADMIN").get()));		    	
 		    }	
-			  usuario.setRoles(roles);
-			  usuarioRepositorio.save(usuario);
-	
+			 usuarioRepositorio.save(usuario);	
 			return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
 	
 	}

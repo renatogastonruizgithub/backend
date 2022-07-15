@@ -1,10 +1,13 @@
 package com.example.email.seguridad;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.example.email.excepciones.AppException;
@@ -31,22 +34,23 @@ public class JwtTokenProvider {
 		String username = authentication.getName();
 		Date fechaActual = new Date();
 		Date fechaExpiracion = new Date(fechaActual.getTime() + jwtExpirationInMs);
+		List<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 		
-		String token = Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(fechaExpiracion)
-				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		String token = Jwts.builder().setSubject(username).claim("roles", roles).setIssuedAt(new Date()).setExpiration(fechaExpiracion)
+				.signWith(SignatureAlgorithm.HS512, jwtSecret.getBytes()).compact();
 		
 		return token;
 	}
 	
 //datos del user 
 	public String obtenerUsernameDelJWT(String token) {
-		Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+		Claims claims = Jwts.parser().setSigningKey(jwtSecret.getBytes()).parseClaimsJws(token).getBody();
 		return claims.getSubject();
 	}
 	
 	public boolean validarToken(String token) {
 		try {
-			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+			Jwts.parser().setSigningKey(jwtSecret.getBytes()).parseClaimsJws(token);
 			return true;
 		}catch (SignatureException ex) {
 			throw new AppException(HttpStatus.BAD_REQUEST,"Firma JWT no valida");
