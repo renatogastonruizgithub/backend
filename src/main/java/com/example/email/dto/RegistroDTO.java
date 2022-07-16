@@ -16,10 +16,9 @@ public class RegistroDTO {
 	@javax.validation.constraints.NotEmpty(message = "Es requrido la contraseña")
 	private String password;
 	@javax.validation.constraints.NotEmpty(message = "Es requrido el rol")
+
 	private String roles;
-
 	
-
 	/**
 	 * @return the roles
 	 */

@@ -2,6 +2,9 @@ package com.example.email.controller;
 
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,41 +63,43 @@ public class AuthController {
 	}
 	
 	@PostMapping("/registrar")
-	public ResponseEntity<?> registrarUsuario(@RequestBody RegistroDTO registroDTO ,BindingResult bindingResult){
-	
-		 if(registroDTO.getEmail().isEmpty()) {
-				return new ResponseEntity<>("Nombre  requrido",HttpStatus.BAD_REQUEST);
+	public ResponseEntity<RegistroDTO> registrarUsuario(@RequestBody RegistroDTO registroDTO){
+		 if(registroDTO.getEmail().isEmpty()) {			
+				throw new RuntimeException("email  requrido");
+			}			
+		 if(registroDTO.getNombre().isEmpty()) {				
+				throw new RuntimeException("Nombre  requrido");
 			}
-		
-		 if(registroDTO.getNombre().isEmpty()) {
-				return new ResponseEntity<>("Nombre  requrido",HttpStatus.BAD_REQUEST);
-			}
-		 if(registroDTO.getPassword().isEmpty()) {
-				return new ResponseEntity<>("Contraseña requrida",HttpStatus.BAD_REQUEST);
+		 if(registroDTO.getPassword().isEmpty()) {			
+				throw new RuntimeException("Contraseña requrida");
 			}
 		 
-		if(usuarioRepositorio.existsByUsername(registroDTO.getUsername())) {
-			return new ResponseEntity<>("Ese nombre de usuario ya existe",HttpStatus.BAD_REQUEST);
+		if(usuarioRepositorio.existsByUsername(registroDTO.getUsername())) {		
+			throw new RuntimeException("Ese nombre de usuario ya existe");			
 		}
-		
-		if(usuarioRepositorio.existsByEmail(registroDTO.getEmail())) {
-			return new ResponseEntity<>("Ese email de usuario ya existe",HttpStatus.BAD_REQUEST);
+				if(usuarioRepositorio.existsByEmail(registroDTO.getEmail())) {
+	
+			throw new RuntimeException("Ese email de usuario ya existe");
+		}
+		if(registroDTO.getRoles().isBlank()){
+			throw new RuntimeException("ingrese algun rol");
 		}
 		
 		Usuario usuario = new Usuario();
 		usuario.setNombre(registroDTO.getNombre());
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
-		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));
+		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));	
 		
-		  if(registroDTO.getRoles().contains("user")) {					  
+		 if(registroDTO.getRoles().contains("user")) {					  
 			  usuario.setRoles(Collections.singleton(rolRepositorio.findByNombre("ROLE_USER").get())); 
 		  }		  
 		    if(registroDTO.getRoles().contains("admin")) {
 		    	 usuario.setRoles(Collections.singleton(rolRepositorio.findByNombre("ROLE_ADMIN").get()));		    	
 		    }	
+		    
 			 usuarioRepositorio.save(usuario);	
-			return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
+			return  ResponseEntity.status(HttpStatus.OK).build();
 	
 	}
 	
